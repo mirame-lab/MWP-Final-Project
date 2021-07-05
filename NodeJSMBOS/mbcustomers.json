@@ -1,0 +1,11 @@
+[
+    {"name": "Lionel Messi", "address":"Blok L07, Jalan Merbau, KTHO", "area":"UTM"},
+    {"name": "Khairul Anuar", "address":"No 6, Jalan PP 3/7", "area":"Sri Pulai Perdana"},
+    {"name": "Steve Wejler", "address":"Blok M01, Jalan Resak, KTDI", "area":"UTM"},
+    {"name": "Kim Woo Jin", "address":"K33, Jalan Cengal, KTR", "area":"UTM"},
+    {"name": "Kang Chae Young", "address":"Blok H25, Jalan Belian, KTF", "area":"UTM"},
+    {"name": "Abdul Rahman", "address":"Blok L05, Jalan Merbau, KTHO", "area":"UTM"},
+    {"name": "Nur Syahidah Alim", "address":"No 5, Jalan Perdana 2/5", "area":"Sri Pulai Perdana 2"},
+    {"name": "Valentina Acosta", "address":"No 8, Jalan Pakis 8", "area":"Sri Pulai"},
+    {"name": "Diananda Choirunisa", "address":"No 16, Jalan PP 3/8", "area":"Sri Pulai Perdana"}
+]

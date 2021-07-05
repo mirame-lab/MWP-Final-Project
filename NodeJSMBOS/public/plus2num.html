@@ -1,0 +1,55 @@
+<html>
+
+<head>
+    <title>Plus 2 Numbers</title>
+</head>
+
+<body>
+    <form name="f">
+        Num1: <input type="text" name="num1" size=3>
+        +
+        Num2: <input type="text" name="num2" size=3>
+        =
+        <span id="result">???</span>
+        <input type="button" value="Count" onclick="count();">
+    </form>
+</body>
+
+</html>
+<script>
+    function create_ajax() {
+        var xmlhttp = null;
+
+        if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+
+        } else { // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        return xmlhttp;
+    }
+
+    function response(ajax) {
+        /* Debug ajax state and status */
+        //alert(ajax.readyState + " - " + ajax.status);
+
+        if (ajax.readyState == 4 && ajax.status == 200) {
+            var str = ajax.responseText;
+            document.getElementById("result").innerHTML = str;
+        }
+    }
+
+    function count() {
+        var str = "num1=" + document.f.num1.value + "&" +
+            "num2=" + document.f.num2.value;
+
+        var ajax = create_ajax();
+        ajax.onreadystatechange = function () { response(ajax); }
+
+        /* GET method */
+        ajax.open("GET", "http://127.0.0.1:8080/plus2num/?" + str, true);
+        ajax.send();
+    }
+</script>

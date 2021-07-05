@@ -1,0 +1,50 @@
+<html>
+
+<head>
+    <title>Plus 2 Numbers - jQuery</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <form id="f">
+        Num1: <input type="text" name="num1" id="num1" value="3" size=3>
+        +
+        Num2: <input type="text" name="num2" id="num2" value="7" size=3>
+        =
+        <span id="result">???</span>
+        <input type="button" value="Count" onclick="count();">
+    </form>
+</body>
+
+</html>
+<script>
+    function response(res) {
+        document.getElementById("result").innerHTML = res;
+    }
+
+    function count() {
+        var n1 = $('#num1').val();
+        var n2 = $('#num2').val();
+
+        var qstr = $('form').serialize();
+        var jsondata = {'num1':n1, 'num2':n2};
+        var restpath = n1 + '/' + n2;
+
+        //alert(qstr);
+
+		$.ajax({
+			type: "GET", url: "http://127.0.0.1:8080/plus2num/?", data: qstr,
+			//type: "POST", url: "http://127.0.0.1:8080/plus2num", data: jsondata,
+			//type: "GET", url: "http://127.0.0.1:8080/plus2num/" + restpath, data: null,
+			//type: "POST", url: "http://127.0.0.1:8080/plus2num/" + restpath, data: null,
+
+			success: function(res, status, xhr) {
+				response(res);
+			},
+
+			error: function(xhr, status, error) {
+			   alert("AJAX error: " + error);
+			},
+		});
+    }
+</script>

@@ -1,0 +1,226 @@
+<html>
+<head>
+    <title>MBOS - Menus</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="./font-awesome-4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+</head>
+
+<body ng-app="menu" ng-controller="menuCtrl" ng-init="initModel()">
+    <i class="fa fa-circle-o-notch fa-spin fa-4x fa-fw "
+        style="color: lightsteelblue; position: absolute;top: 50%; left: 50%;"></i>
+
+    <div class="w3-bar w3-sand">
+        <a class="w3-bar-item w3-button" href="assg3.html">New Order</a>
+        <a class="w3-bar-item w3-button" href="order-list.html">Order List</a>
+        <a class="w3-bar-item w3-button w3-black" href="menus.html">Menus</a>
+        <a class="w3-bar-item w3-button" href="customers.html">Customers</a>
+    </div>
+
+    <!-- only show this table when mode_list == true -->
+    <table class="w3-table w3-striped w3-border" ng-show="mode_list">
+        <tr class="w3-blue">
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>
+                Order by:
+                <select class="w3-select" style="display: inline-block; width:100px;" ng-model="odrby_opt"
+                    ng-change="changeOrder(odrby_opt)">
+                    <option ng-repeat="item in orderby_opts" value="{{item.val}}">
+                        {{item.caption}}
+                    </option>
+                </select>
+            </th>
+        </tr>
+        <tr ng-repeat="item in menus">
+            <td>{{item.id}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.price}}</td>
+            <td>
+                <button class="w3-btn w3-green w3-small" ng-click="updateMenuForm(item)">Update</button>
+                <button class="w3-btn w3-red w3-small" ng-click="deleteMenu(item)">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td><input type="text" ng-model="new_menu.id"></td>
+            <td><input type="text" ng-model="new_menu.name"></td>
+            <td><input type="text" ng-model="new_menu.price"></td>
+            <td>
+                <button class="w3-btn w3-blue" ng-click="addMenu()">Add</button>
+            </td>
+        </tr>
+    </table>
+
+    <!-- only show this table when mode_update == true -->
+    <table class="w3-table w3-striped w3-border" ng-show="mode_update">
+        <tr class="w3-blue">
+            <th colspan="2">Update Menu</th>
+        </tr>
+        <tr>
+            <th>ID</th>
+            <td>{{update_menu.id}}</td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td><input type="text" ng-model="update_menu.name"></td>
+        </tr>
+        <tr>
+            <th>Price</th>
+            <td><input type="text" ng-model="update_menu.price"></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button class="w3-btn w3-light-gray" ng-click="updateMenuSubmit()">Submit</button>
+                <button class="w3-btn w3-light-gray" ng-click="updateMenuCancel()">Cancel</button>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>
+
+<script>
+    var app = angular.module('menu', []);
+
+    app.controller('menuCtrl', function ($scope, $http) {
+        $scope.ajax_req = false;
+        $scope.mode_list = true;
+        $scope.mode_update = false;
+
+        $scope.initModel = function () {
+            // Default new menu to test add menu task
+            $scope.new_menu = { 'id': 14, 'name': 'Char Kuey Teow MB', 'price': 8.8 };
+
+            $scope.odrby_opt = 'id';
+            // Order by option fields
+            $scope.orderby_opts = [
+                { 'caption': 'ID', 'val': 'id' },
+                { 'caption': 'Name', 'val': 'name' },
+                { 'caption': 'Price', 'val': 'price' }
+            ];
+
+            $http.get('http://localhost:8080/mbos/menus').then(function (res) {
+                console.log(res.data);
+                $scope.menus = res.data;
+            }).then(function() {
+                $('.fa').hide(); // hide spin icon
+            });
+        };
+
+        $scope.changeOrder = function (opt) {
+            console.log("List menu item order by " + opt);
+            $('.fa').show(); // show spin icon
+
+            $http.get('http://localhost:8080/mbos/menus/' + opt + '/asc').then(function (res) {
+                console.log(res.data);
+                $scope.menus = res.data;
+            }).then(function () {
+                $('.fa').hide(); // hide spin icon
+            });
+        }
+
+        $scope.addMenu = function () {
+            console.log("Save menu : " + $scope.new_menu);
+            $('.fa').show(); // show spin icon
+
+            // switch to jQuery solution ;-)
+            $.ajax({
+                type: "POST", url: "http://127.0.0.1:8080/mbos/menu/create", data: $scope.new_menu,
+
+                success: function (res, status, xhr) {
+                    console.log(res);
+                    res = JSON.parse(res);
+                    console.log(res.status);
+
+                    if (res.status == 'success') {
+                        // reuse changeOrder() function to refresh menu list
+                        $scope.changeOrder($scope.odrby_opt);
+                    } else {
+                        alert(res.message);
+                    }
+                },
+
+                error: function (xhr, status, error) {
+                    alert("AJAX error: " + error);
+                },
+            }).then(function () {
+                $('.fa').hide(); // hide spin icon
+            });
+        }
+
+        $scope.updateMenuForm = function (item) {
+            $scope.mode_list = false;  // hide list menu table
+            $scope.mode_update = true; // show update menu table
+
+            console.log(item.id);
+            $scope.update_menu = angular.copy(item);
+        }
+
+        $scope.updateMenuSubmit = function () {
+            $('.fa').show(); // show spin icon
+
+
+            // switch to jQuery solution ;-)
+            var id = $scope.update_menu.id;
+            $.ajax({
+                type: "PUT", url: "http://127.0.0.1:8080/mbos/menu/update/" + id, data: $scope.update_menu,
+
+                success: function (res, status, xhr) {
+                    console.log(res);
+                    res = JSON.parse(res);
+                    console.log(res.status);
+
+                    if (res.status == 'success') {
+                        // reuse changeOrder() function to refresh menu list
+                        $scope.changeOrder($scope.odrby_opt);
+                    }
+                },
+
+                error: function (xhr, status, error) {
+                    alert("AJAX error: " + error);
+                },
+            }).then(function () {
+                $('.fa').hide(); // hide spin icon
+                $scope.mode_list = true;    // show list menu table
+                $scope.mode_update = false; // hide update menu table
+            });
+
+        }
+
+        $scope.updateMenuCancel = function () {
+            $scope.mode_list = true;    // show list menu table
+            $scope.mode_update = false; // hide update menu table
+        }
+
+        $scope.deleteMenu = function (item) {
+            $('.fa').show(); // show spin icon
+            // switch to jQuery solution ;-)
+            var id = item.id;
+            $.ajax({
+                type: "DELETE", url: "http://127.0.0.1:8080/mbos/menu/delete/" + id, data: item,
+
+                success: function (res, status, xhr) {
+                    console.log(res);
+                    res = JSON.parse(res);
+                    console.log(res.status);
+
+                    if (res.status == 'success') {
+                        // reuse changeOrder() function to refresh menu list
+                        $scope.changeOrder($scope.odrby_opt);
+                    } else {
+                        alert(res.message);
+                    }
+                },
+
+                error: function (xhr, status, error) {
+                    alert("AJAX error: " + error);
+                },
+            }).then(function () {
+                $('.fa').hide(); // hide spin icon
+            });
+
+        }
+    });
+</script>
