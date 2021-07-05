@@ -1,7 +1,7 @@
 var express = require('express');
 var bodyParser = require("body-parser"); // need this to handle POST method
 var config = require('./config.js');
-
+var dateFormat = require('dateformat');
 var app = express();
 
 app.use(express.static('public')); // directory publish static files
@@ -254,33 +254,48 @@ app.get('/mbos/customer/:id', function (req, res) {
 });
 
 //Post Customer
-// app.post('/mbos/customer/create', function (req, res) {
-//     console.log('/mbos/customer/create');
-//     console.log(req.body);
+app.post('/mbos/customer/create', async function (req, res) {
+    console.log('/mbos/customer/create');
+    console.log(req.body);
 
-//     res.setHeader('Content-type', 'text/plain');
-//     res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Content-type', 'text/plain');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    var currid;
+    // var new_cust = { 'name': req.body.name, 'address': req.body.address, 'area':req.body.area };
+    var result = { 'status': null, 'message': null };
+    var date = new Date();
+    var date_time = dateFormat(date, "yyyy-mm-dd h:MM:ss");
+    const custRef = db.collection('customers');
+    const snapshot = await custRef.where('name', '==', req.body.name).get();
 
-//     var new_cust = { 'id': req.body.id, 'name': req.body.name, 'address': req.body.address, 'area':req.body.area };
-//     var result = { 'status': null, 'message': null };
+    if (snapshot.empty) {
+        console.log('No matching documents.');
+        //create new cust
+        const newcust = await db.collection('customers').add({
+            name: req.body.name,
+            address: req.body.address,
+            area: req.body.area 
+        });
+        currid =  newcust.id;
+        console.log('Added document with ID: ', currid);
+        console.log("new cust");
+      }  
+      
+    snapshot.forEach(doc => {
+        console.log(doc.id, '=>', doc.data());
+        currid = doc.id;
+        console.log('Added document with ID: ', currid);
+        console.log("old cust");
+    })
 
-//     db.collection('customers').doc(new_cust.id.toString()).get().then(function (doc) {
-//         if (doc.exists) {
-//             result.status = 'fail';
-//             result.message = `Can't add, customer with ID ${new_cust.id} already exists in the database!`;
 
-//             res.send(result);
+    const newcustorder = await db.collection('custorders').add({
+        id_customer: currid,
+        date_time: date_time
+    });
 
-//         } else {
-//             db.collection('customers').doc(new_cust.id.toString()).set(new_cust).then(function (doc) {
-//                 result.status = 'success';
-//                 result.message = `Successful save new customer into database`;
 
-//                 res.send(result);
-//             });
-//         }
-//     });
-// });
+});
 //End Post Customer
 
 app.delete('/mbos/customer/delete/:id', function (req, res) {
