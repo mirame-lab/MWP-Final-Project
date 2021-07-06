@@ -279,6 +279,7 @@ app.post('/mbos/customer/create', async function (req, res) {
         currid =  newcust.id;
         console.log('Added document with ID: ', currid);
         console.log("new cust");
+       
       }  
       
     snapshot.forEach(doc => {
@@ -293,7 +294,10 @@ app.post('/mbos/customer/create', async function (req, res) {
         id_customer: currid,
         date_time: date_time
     });
-
+    
+    result.status = 'success';
+    result.message = `Successful update customer into database`;
+    res.send(result);
 
 });
 //End Post Customer
