@@ -230,10 +230,7 @@
 
       alert("Save the following JSON structure into database:\n" + custJStr + "\n" + odrListJStr);
 
-      //Add Order
-      console.log("Save customer : " + $scope.cust);
-      $('.fa').show(); // show spin icon
-
+      //Add Customer------------------------------------------------------------------------------------
       // switch to jQuery solution ;-)
       $.ajax({
         type: "POST", url: "http://127.0.0.1:8080/mbos/customer/create", data: $scope.cust,
@@ -244,8 +241,6 @@
           console.log(res.status);
 
           if (res.status == 'success') {
-            // // reuse changeOrder() function to refresh menu list
-            // $scope.changeOrder($scope.odrby_opt);
             $('.fa').hide(); // hide spin icon
           } else {
             alert(res.message);
@@ -258,7 +253,43 @@
       }).then(function () {
         $('.fa').hide(); // hide spin icon
       });
-      //End Add Order
+      //End Add Customer-------------------------------------------------------------------------
+
+      //Add custorder----------------------------------------------------------------------------
+      // var dateFormat = require('dateformat');
+      // $scope.date = new Date();
+      // $scope.currDate = dateFormat(date, "yyyy-mm-dd h:MM:ss");
+      $scope.date = new Date();
+      $scope.currDate = $scope.date.getFullYear() + '-' +
+        $scope.date.getMonth() + '-' +
+        $scope.date.getDate() + ' ' +
+        $scope.date.getHours() + ':' +
+        $scope.date.getMinutes() + ':' +
+        $scope.date.getSeconds();
+      $scope.new_custorder = { 'name': $scope.cust.name, 'date_time': $scope.currDate };
+      $.ajax({
+        type: "POST", url: "http://127.0.0.1:8080/mbos/custorder/create", data: $scope.new_custorder,
+
+        success: function (res, status, xhr) {
+          console.log(res);
+          res = JSON.parse(res);
+          console.log(res.status);
+
+          if (res.status == 'success') {
+            $('.fa').hide(); // hide spin icon
+          } else {
+            alert(res.message);
+          }
+        },
+
+        error: function (xhr, status, error) {
+          alert("AJAX error: " + error);
+        },
+      }).then(function () {
+        $('.fa').hide(); // hide spin icon
+      });
+      //End Add custorder------------------------------------------------------------------------
+
 
       $scope.menu = {};
       $scope.odrList = [];
