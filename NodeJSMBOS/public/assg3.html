@@ -149,7 +149,7 @@
     <area shape="rect" coords="0,282,23,298" alt="Lucky Plate" ng-click="chooseItem('Lucky Plate', 11.90);">
     <area shape="rect" coords="128,282,147,298" alt="Chick-A-Licious" ng-click="chooseItem('Chick-A-Licious', 13.30);">
     <area shape="rect" coords="252,282,272,298" alt="Chick-A-Mix" ng-click="chooseItem('Chick-A-Mix', 11.90);">
-    <area shape="rect" coords="377,282,395,298" alt="Fish 'n' Chip" ng-click="chooseItem('Fish \'n\' Chip', 13.90);">
+    <area shape="rect" coords="377,282,395,298" alt="Fish 'n' Chips" ng-click="chooseItem('Fish \'n\' Chips', 13.90);">
 
     <area shape="rect" coords="0,430,23,446" alt="Nasi Marrybrown" ng-click="chooseItem('Nasi Marrybrown', 9.90);">
     <area shape="rect" coords="128,430,147,446" alt="Nasi Ayam MB" ng-click="chooseItem('Nasi Ayam MB', 10.30);">
@@ -256,17 +256,8 @@
       //End Add Customer-------------------------------------------------------------------------
 
       //Add custorder----------------------------------------------------------------------------
-      // var dateFormat = require('dateformat');
-      // $scope.date = new Date();
-      // $scope.currDate = dateFormat(date, "yyyy-mm-dd h:MM:ss");
-      $scope.date = new Date();
-      $scope.currDate = $scope.date.getFullYear() + '-' +
-        $scope.date.getMonth() + '-' +
-        $scope.date.getDate() + ' ' +
-        $scope.date.getHours() + ':' +
-        $scope.date.getMinutes() + ':' +
-        $scope.date.getSeconds();
-      $scope.new_custorder = { 'name': $scope.cust.name, 'date_time': $scope.currDate };
+
+      $scope.new_custorder = { 'name': $scope.cust.name, 'orderlist': odrListJStr };
       $.ajax({
         type: "POST", url: "http://127.0.0.1:8080/mbos/custorder/create", data: $scope.new_custorder,
 
