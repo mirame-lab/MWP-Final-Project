@@ -1,7 +1,7 @@
 var express = require('express');
 var bodyParser = require("body-parser"); // need this to handle POST method
 var config = require('./config.js');
-var dateFormat = require('dateformat');
+// var dateFormat = require('dateformat');
 var app = express();
 
 app.use(express.static('public')); // directory publish static files
@@ -263,8 +263,8 @@ app.post('/mbos/customer/create', async function (req, res) {
     var currid;
     // var new_cust = { 'name': req.body.name, 'address': req.body.address, 'area':req.body.area };
     var result = { 'status': null, 'message': null };
-    var date = new Date();
-    var date_time = dateFormat(date, "yyyy-mm-dd h:MM:ss");
+    // var date = new Date();
+    // var date_time = dateFormat(date, "yyyy-mm-dd h:MM:ss");
     const custRef = db.collection('customers');
     const snapshot = await custRef.where('name', '==', req.body.name).get();
 
@@ -290,10 +290,17 @@ app.post('/mbos/customer/create', async function (req, res) {
     })
 
 
+<<<<<<< HEAD
     const newcustorder = await db.collection('custorders').add({
         id_customer: currid,
         date_time: date_time
     });
+=======
+    // const newcustorder = await db.collection('custorders').add({
+    //     id_customer: currid,
+    //     date_time: date_time
+    // });
+>>>>>>> fe9e9cbe884714b6e54b41a4ee7a8c66f0f3e4ad
 
     result.status = 'success';
     result.message = `Successful update customer into database`;
@@ -435,6 +442,42 @@ function getItems(custorders, res) {
         });
     });
 }
+
+//Add new custorder
+app.post('/mbos/custorder/create', async function (req, res) {
+    console.log('/mbos/custorder/create');
+    console.log(req.body);
+
+    res.setHeader('Content-type', 'text/plain');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    var custId;
+    const snapshot = await db.collection('customers').where('name', '==', req.body.name.toString()).get();
+    var result = { 'status': null, 'message': null };
+
+    db.collection('customers').where('name', '==', req.body.name.toString()).get().then(function (docs) {
+        if (docs.empty) {
+            result.status = 'fail';
+            result.message = `Error in completing task!`;
+            res.send(result);
+
+        } else {
+            snapshot.forEach(docs => {
+                custId = docs.id;
+            });
+
+            var new_custorder = { 'id_customer': custId, 'date_time': req.body.date_time };
+
+            db.collection('custorders').doc().set(new_custorder).then(function (doc) {
+                result.status = 'success';
+                result.message = `Successful save new custorder into database`;
+
+                res.send(result);
+            });
+        }
+    });
+});
+//End Add new custorder
 
 // Paths for menu items ordered ////////////////////////////////////
 app.get('/mbos/itemorders', function (req, res) {
