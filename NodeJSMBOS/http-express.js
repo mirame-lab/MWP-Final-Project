@@ -274,14 +274,14 @@ app.post('/mbos/customer/create', async function (req, res) {
         const newcust = await db.collection('customers').add({
             name: req.body.name,
             address: req.body.address,
-            area: req.body.area 
+            area: req.body.area
         });
-        currid =  newcust.id;
+        currid = newcust.id;
         console.log('Added document with ID: ', currid);
         console.log("new cust");
-       
-      }  
-      
+
+    }
+
     snapshot.forEach(doc => {
         console.log(doc.id, '=>', doc.data());
         currid = doc.id;
@@ -294,16 +294,15 @@ app.post('/mbos/customer/create', async function (req, res) {
         id_customer: currid,
         date_time: date_time
     });
-    
+
     result.status = 'success';
     result.message = `Successful update customer into database`;
     res.send(result);
-
 });
 //End Post Customer
 
 app.delete('/mbos/customer/delete/:id', function (req, res) {
-console.log(`/mbos/customer/delete/${req.params.id}`);
+    console.log(`/mbos/customer/delete/${req.params.id}`);
     console.log(req.body);
 
     res.setHeader('Content-type', 'text/plain');
@@ -338,7 +337,7 @@ app.put('/mbos/customer/update/:id', function (req, res) {
     res.setHeader('Content-type', 'text/plain');
     res.setHeader('Access-Control-Allow-Origin', '*');
 
-    var update_customer = { 'name': req.body.name, 'address': req.body.address, 'area': req.body.area};
+    var update_customer = { 'name': req.body.name, 'address': req.body.address, 'area': req.body.area };
     var result = { 'status': null, 'message': null };
 
     db.collection('customers').doc(req.params.id).update(update_customer).then(function (doc) {
@@ -350,6 +349,8 @@ app.put('/mbos/customer/update/:id', function (req, res) {
 
 // Paths for customer orders ////////////////////////////////////
 app.get('/mbos/custorders', function (req, res) {
+    res.setHeader('Content-type', 'text/plain');
+    res.setHeader('Access-Control-Allow-Origin', '*');
     console.log(`/mbos/custorders`);
     return res.redirect('/mbos/custorders/date_time/desc');
 });
