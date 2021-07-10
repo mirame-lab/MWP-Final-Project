@@ -23,69 +23,74 @@
     <!-- only show this table when mode_list == true -->
     <table class="w3-table w3-striped w3-border" ng-show="mode_list">
         <tr class="w3-blue">
-            <th>ID</th>
             <th>Time</th>
-            <th>Name</th>
-            <th>Total</th>
-            <!-- <th>
-                Order by:
-                <select class="w3-select" style="display: inline-block; width:100px;" ng-model="odrby_opt"
-                    ng-change="changeOrder(odrby_opt)">
-                    <option ng-repeat="item in orderby_opts" value="{{item.val}}">
-                        {{item.caption}}
-                    </option>
-                </select>
-            </th> -->
+            <th>Customer ID</th>
+            <th>Total Item Order</th>
+            <th></th>
         </tr>
-        <tr ng-repeat="item in customers">
-            <td>{{item.id}}</td>
+        <tr ng-repeat="item in custorder">
             <td>{{item.date_time}}</td>
             <td>{{item.id_customer}}</td>
-            <td>{{item.id}}</td>
-            <!-- <td>
-                <button class="w3-btn w3-green w3-small" ng-click="updateCustForm(item)">Update</button>
-                <button class="w3-btn w3-red w3-small" ng-click="deleteCust(item)">Delete</button>
-            </td> -->
-        </tr>
-        <!-- <tr>
-            <td><input type="text" ng-model="new_cust.name"></td>
-            <td><input type="text" ng-model="new_cust.address"></td>
-            <td><input type="text" ng-model="new_cust.area"></td>
+            <td>{{item.items.length}}</td>
             <td>
-                <button class="w3-btn w3-blue" ng-click="addCustomer()">Add</button>
+                <button class="w3-btn w3-green w3-small" ng-click="getOrderDetail(item)">Details</button>
+                <button class="w3-btn w3-red w3-small" ng-click="deleteOrder(item)">Delete</button>
             </td>
-        </tr> -->
+        </tr>
     </table>
 
     <!-- only show this table when mode_update == true -->
-    <!-- <table class="w3-table w3-striped w3-border" ng-show="mode_update">
+    <table class="w3-table w3-striped w3-border" ng-show="mode_update">
         <tr class="w3-blue">
-            <th colspan="2">Update Customer</th>
+            <th colspan="2">Customer Details</th>
         </tr>
         <tr>
             <th>ID</th>
-            <td>{{update_cust.id}}</td>
+            <td>{{selected_cust.id}}</td>
         </tr>
         <tr>
             <th>Name</th>
-            <td><input type="text" ng-model="update_cust.name"></td>
+            <td>{{customers.name}}</td>
         </tr>
         <tr>
             <th>Address</th>
-            <td><input type="text" ng-model="update_cust.address"></td>
+            <td>{{customers.address}}</td>
         </tr>
         <tr>
             <th>Area</th>
-            <td><input type="text" ng-model="update_cust.area"></td>
+            <td>{{customers.area}}</td>
+        </tr>
+    </table>
+    <table class="w3-table w3-striped w3-border" ng-show="mode_update" ng-init="items.total={}">
+        <tr class="w3-blue">
+            <th colspan="5">Order Details</th>
         </tr>
         <tr>
-            <td colspan="2">
-                <button class="w3-btn w3-light-gray" ng-click="updateCustSubmit()">Submit</button>
-                <button class="w3-btn w3-light-gray" ng-click="updateMCustCancel()">Cancel</button>
+            <th>Menu ID</th>
+            <th>Item</th>
+            <th>Price</th>
+            <th>Qty</th>
+            <th>Qty * Price</th>
+        </tr>
+        <tr ng-repeat="item in order">
+            <td>{{item.items.id_menu}}</td>
+            <td>{{item.menu.name}}</td>
+            <td>{{item.menu.price | number: 2}}</td>
+            <td>{{item.items.qty}}</td>
+            <td ng-init="items.total.totalPrice = items.total.totalPrice + (item.items.qty * item.menu.price)">
+                {{item.items.qty * item.menu.price | number: 2}}
             </td>
         </tr>
-    </table> -->
-
+        <tr style="background-color: lightgrey">
+            <th colspan="4">Total Price</th>
+            <th>{{items.total.totalPrice | number: 2}}</th>
+        </tr>
+        <tr>
+            <td colspan="5">
+                <button class="w3-btn w3-light-gray" ng-click="backOrderList(items)">Back</button>
+            </td>
+        </tr>
+    </table>
 </body>
 
 </html>
@@ -102,16 +107,53 @@
         $scope.initModel = function () {
             $http.get('http://localhost:8080/mbos/custorders').then(function (res) {
                 console.log(res.data);
-                $scope.customers = res.data;
+                $scope.custorder = res.data;
             }).then(function () {
                 $('.fa').hide(); // hide spin icon
             });
         };
 
-        $scope.getCustName = function (id) {
-            $http.get('http://localhost:8080/mbos/custorders%s', id).then(function (res) {
-                $scope.details = res.data;
-            })
+        $scope.getOrderDetail = function (item) {
+            $scope.mode_list = false;  // hide list menu table
+            $scope.mode_update = true; // show update menu table
+            $scope.order = [];
+
+            console.log(item.id);
+            $scope.selected_cust = angular.copy(item);
+            $scope.menus = [];
+            $scope.qty = [];
+
+            $http.get('http://127.0.0.1:8080/mbos/customer/' + item.id_customer).then(function (res) {
+                console.log(res.data);
+                $scope.customers = res.data;
+            }).then(function () {
+                $('.fa').hide(); // hide spin icon
+            });
+
+            $http.get('http://127.0.0.1:8080/mbos/itemorders/' + item.id).then(function (res) {
+                console.log(res.data);
+                $scope.itemorders = res.data;
+
+                for (let j = 0; j < $scope.itemorders.length; j++) {
+                    $http.get('http://127.0.0.1:8080/mbos/menu/' + $scope.itemorders[j].id_menu).then(function (res) {
+                        console.log(res.data);
+                        $scope.menus = res.data;
+
+                        if ($scope.itemorders[j].id_menu == $scope.menus.id) {
+                            $scope.order.push({ "items": $scope.itemorders[j], "menu": $scope.menus });
+                            console.log($scope.odrList);
+                        }
+                    });
+                }
+            }).then(function () {
+                $('.fa').hide(); // hide spin icon
+            });
+        }
+
+        $scope.backOrderList = function (items) {
+            $scope.mode_list = true;    // show list menu table
+            $scope.mode_update = false; // hide update menu table
+            items.total = {};
         }
 
     });</script>
