@@ -10,8 +10,7 @@
 </head>
 
 <body ng-app="custOdr" ng-controller="custOdrCtrl" ng-init="initModel()">
-    <i class="fa fa-circle-o-notch fa-spin fa-4x fa-fw "
-        style="color: lightsteelblue; position: absolute;top: 50%; left: 50%;"></i>
+    <i class="fa fa-circle-o-notch fa-spin fa-4x fa-fw " style="color: lightsteelblue; position: absolute;top: 50%; left: 50%;"></i>
 
     <div class="w3-bar w3-sand">
         <a class="w3-bar-item w3-button" href="assg3.html">New Order</a>
@@ -26,14 +25,21 @@
             <th>Time</th>
             <th>Customer ID</th>
             <th>Total Item Order</th>
-            <th></th>
+            <th>
+                Order by:
+                <select class="w3-select" style="display: inline-block; width:100px;" ng-model="odrby_opt" ng-change="changeOrder(odrby_opt)">
+                    <option ng-repeat="item in orderby_opts" value="{{item.val}}">
+                        {{item.caption}}
+                    </option>
+                </select>
+            </th>
         </tr>
         <tr ng-repeat="item in custorder">
             <td>{{item.date_time}}</td>
             <td>{{item.id_customer}}</td>
             <td>{{item.items.length}}</td>
             <td>
-                <button class="w3-btn w3-green w3-small" ng-click="getOrderDetail(item)">Details</button>
+                <button class="w3-btn w3-green w3-small" ng-click="getOrderDetail(item)">View Details</button>
                 <button class="w3-btn w3-red w3-small" ng-click="deleteOrder(item)">Delete</button>
             </td>
         </tr>
@@ -99,22 +105,49 @@
     $('.fa').hide();
     var app = angular.module('custOdr', []);
 
-    app.controller('custOdrCtrl', function ($scope, $http) {
+    app.controller('custOdrCtrl', function($scope, $http) {
         $scope.ajax_req = false;
         $scope.mode_list = true;
         $scope.mode_update = false;
 
-        $scope.initModel = function () {
-            $http.get('http://localhost:8080/mbos/custorders').then(function (res) {
+        $scope.initModel = function() {
+            $scope.odrby_opt = 'date_time';
+            // Order by option fields
+            $scope.orderby_opts = [{
+                    'caption': 'Date/Time',
+                    'val': 'date_time'
+                },
+                // {
+                //     'caption': 'Customer ID',
+                //     'val': 'id_customer'
+                // }, {
+                //     'caption': 'Total Item Order',
+                //     'val': 'items.length'
+                // }
+            ];
+
+            $http.get('http://localhost:8080/mbos/custorders').then(function(res) {
                 console.log(res.data);
                 $scope.custorder = res.data;
-            }).then(function () {
+            }).then(function() {
                 $('.fa').hide(); // hide spin icon
             });
         };
 
-        $scope.getOrderDetail = function (item) {
-            $scope.mode_list = false;  // hide list menu table
+        $scope.changeOrder = function(opt) {
+            console.log("List menu item order by " + opt);
+            $('.fa').show(); // show spin icon
+
+            $http.get('http://localhost:8080/mbos/custorders/' + opt + '/asc').then(function(res) {
+                console.log(res.data);
+                $scope.custorder = res.data;
+            }).then(function() {
+                $('.fa').hide(); // hide spin icon
+            });
+        }
+
+        $scope.getOrderDetail = function(item) {
+            $scope.mode_list = false; // hide list menu table
             $scope.mode_update = true; // show update menu table
             $scope.order = [];
 
@@ -123,37 +156,72 @@
             $scope.menus = [];
             $scope.qty = [];
 
-            $http.get('http://127.0.0.1:8080/mbos/customer/' + item.id_customer).then(function (res) {
+            $http.get('http://127.0.0.1:8080/mbos/customer/' + item.id_customer).then(function(res) {
                 console.log(res.data);
                 $scope.customers = res.data;
-            }).then(function () {
+            }).then(function() {
                 $('.fa').hide(); // hide spin icon
             });
 
-            $http.get('http://127.0.0.1:8080/mbos/itemorders/' + item.id).then(function (res) {
+            $http.get('http://127.0.0.1:8080/mbos/itemorders/' + item.id).then(function(res) {
                 console.log(res.data);
                 $scope.itemorders = res.data;
 
                 for (let j = 0; j < $scope.itemorders.length; j++) {
-                    $http.get('http://127.0.0.1:8080/mbos/menu/' + $scope.itemorders[j].id_menu).then(function (res) {
+                    $http.get('http://127.0.0.1:8080/mbos/menu/' + $scope.itemorders[j].id_menu).then(function(res) {
                         console.log(res.data);
                         $scope.menus = res.data;
 
                         if ($scope.itemorders[j].id_menu == $scope.menus.id) {
-                            $scope.order.push({ "items": $scope.itemorders[j], "menu": $scope.menus });
+                            $scope.order.push({
+                                "items": $scope.itemorders[j],
+                                "menu": $scope.menus
+                            });
                             console.log($scope.odrList);
                         }
                     });
                 }
-            }).then(function () {
+            }).then(function() {
                 $('.fa').hide(); // hide spin icon
             });
         }
 
-        $scope.backOrderList = function (items) {
-            $scope.mode_list = true;    // show list menu table
+        $scope.backOrderList = function(items) {
+            $scope.mode_list = true; // show list menu table
             $scope.mode_update = false; // hide update menu table
             items.total = {};
         }
 
-    });</script>
+        $scope.deleteOrder = function(item) {
+            $('.fa').show(); // show spin icon
+            // switch to jQuery solution ;-)
+            var id = item.id;
+            $.ajax({
+                type: "DELETE",
+                url: "http://127.0.0.1:8080/mbos/custorder/delete/" + id,
+                data: item,
+
+                success: function(res, status, xhr) {
+                    console.log(res);
+                    res = JSON.parse(res);
+                    console.log(res.status);
+
+                    if (res.status == 'success') {
+                        // reuse changeOrder() function to refresh menu list
+                        $scope.changeOrder($scope.odrby_opt);
+                    } else {
+                        alert(res.message);
+                    }
+                },
+
+                error: function(xhr, status, error) {
+                    alert("AJAX error: " + error);
+                },
+            }).then(function() {
+                $('.fa').hide(); // hide spin icon
+            });
+        }
+
+
+    });
+</script>
