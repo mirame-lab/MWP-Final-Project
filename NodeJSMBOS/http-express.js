@@ -453,6 +453,7 @@ app.post('/mbos/custorder/create', async function(req, res) {
 
     var custId, custorderId;
     var cust = JSON.parse(req.body.custinfo);
+    var ordrlist = JSON.parse(req.body.orderlist);
     var date = new Date();
     var datetime = dateFormat(date, "yyyy-mm-dd h:MM:ss");
     const snapshot = await db.collection('customers').where('name', '==', cust.name.toString()).get();
@@ -486,7 +487,7 @@ app.post('/mbos/custorder/create', async function(req, res) {
     })
 
     custorderId = newcustorder.id;   
-    var ordrlist = JSON.parse(req.body.orderlist);
+    
     console.log(ordrlist.length);
     for (let i = 0; i < ordrlist.length; i++) {
         // console.log(custorderId);
