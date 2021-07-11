@@ -5,65 +5,18 @@
     <link rel="stylesheet" href="./font-awesome-4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-            <!-- Favicon -->
-            <link href="https://www.xwhos.com/photo/whois_marrybrown_2019-09-11_0.webp" rel="icon">
-
-            <!-- Google Font -->
-            <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Nunito:600,700" rel="stylesheet"> 
-            
-            <!-- CSS Libraries -->
-            <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
-            <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-            <link href="lib/animate/animate.min.css" rel="stylesheet">
-            <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-            <link href="lib/flaticon/font/flaticon.css" rel="stylesheet">
-            <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
-    
-            <!-- Template Stylesheet -->
-            <link href="css/style.css" rel="stylesheet">
 </head>
 
 <body ng-app="menu" ng-controller="menuCtrl" ng-init="initModel()">
     <i class="fa fa-circle-o-notch fa-spin fa-4x fa-fw "
         style="color: lightsteelblue; position: absolute;top: 50%; left: 50%;"></i>
 
- <!-- Nav Bar Start -->
- <div class="navbar navbar-expand-lg bg-light navbar-light">
-    <div class="container-fluid">
-        <a href="index.html" class="navbar-brand"> <img src="https://www.mpt.com.mm/wp-content/uploads/2018/07/LOGO-3-SMALL-1024x248.png" alt=""></a>
-        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-            <div class="navbar-nav ml-auto">
-                <a href="assg3.html" class="nav-item nav-link">New Order</a>
-                <a href="order-list.html" class="nav-item nav-link">Order List</a>
-                <a href="menus.html" class="nav-item nav-link active">Menus</a>
-                <a href="customers.html" class="nav-item nav-link">Customers</a>
-
-            </div>
-        </div>
+    <div class="w3-bar w3-sand">
+        <a class="w3-bar-item w3-button" href="assg3.html">New Order</a>
+        <a class="w3-bar-item w3-button" href="order-list.html">Order List</a>
+        <a class="w3-bar-item w3-button w3-black" href="menus.html">Menus</a>
+        <a class="w3-bar-item w3-button" href="customers.html">Customers</a>
     </div>
-</div>
-<!-- Nav Bar End -->
-
-
-<!-- Page Header Start -->
-<div class="page-header mb-0">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <h2>Menus</h2>
-            </div>
-            <div class="col-12">
-                <a href="">Home</a>
-                <a href="">Menus</a>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Page Header End -->
 
     <!-- only show this table when mode_list == true -->
     <table class="w3-table w3-striped w3-border" ng-show="mode_list">
@@ -124,36 +77,6 @@
             </td>
         </tr>
     </table>
-
-
-            <!-- Footer Start -->
-            <div class="footer">
-                <div class="copyright">
-                    <div class="container">
-                        <p>Copyright &copy; <a href="#">MarryBro</a>, All Right Reserved.</p>
-                        <p>Designed By <a href="https://htmlcodex.com">HTML Codex</a></p>
-                    </div>
-                </div>
-            </div>
-            <!-- Footer End -->
-    
-            <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
-    
-            <!-- JavaScript Libraries -->
-            <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-            <script src="lib/easing/easing.min.js"></script>
-            <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-            <script src="lib/tempusdominus/js/moment.min.js"></script>
-            <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-            <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-            
-            <!-- Contact Javascript File -->
-            <script src="mail/jqBootstrapValidation.min.js"></script>
-            <script src="mail/contact.js"></script>
-    
-            <!-- Template Javascript -->
-            <script src="js/main.js"></script>
 </body>
 
 </html>

@@ -254,51 +254,58 @@ app.get('/mbos/customer/:id', function(req, res) {
 });
 
 //Post Customer
-app.post('/mbos/customer/create', async function(req, res) {
-    console.log('/mbos/customer/create');
-    console.log(req.body);
+// app.post('/mbos/customer/create', async function(req, res) {
+//     console.log('/mbos/customer/create');
+//     console.log(req.body);
 
-    res.setHeader('Content-type', 'text/plain');
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    var currid;
-    // var new_cust = { 'name': req.body.name, 'address': req.body.address, 'area':req.body.area };
-    var result = { 'status': null, 'message': null };
-    // var date = new Date();
-    // var date_time = dateFormat(date, "yyyy-mm-dd h:MM:ss");
-    const custRef = db.collection('customers');
-    const snapshot = await custRef.where('name', '==', req.body.name).get();
+//     res.setHeader('Content-type', 'text/plain');
+//     res.setHeader('Access-Control-Allow-Origin', '*');
+//     var currid;
+//     // var new_cust = { 'name': req.body.name, 'address': req.body.address, 'area':req.body.area };
+//     var result = { 'status': null, 'message': null };
+//     // var date = new Date();
+//     // var date_time = dateFormat(date, "yyyy-mm-dd h:MM:ss");
+//     const custRef = db.collection('customers');
+//     const snapshot = await custRef.where('name', '==', req.body.name).get();
 
-    if (snapshot.empty) {
-        console.log('No matching documents.');
-        //create new cust
-        const newcust = await db.collection('customers').add({
-            name: req.body.name,
-            address: req.body.address,
-            area: req.body.area
-        });
-        currid = newcust.id;
-        console.log('Added document with ID: ', currid);
-        console.log("new cust");
+//     if (snapshot.empty) {
+//         console.log('No matching documents.');
+//         //create new cust
+//         const newcust = await db.collection('customers').add({
+//             name: req.body.name,
+//             address: req.body.address,
+//             area: req.body.area
+//         });
+//         currid = newcust.id;
+//         console.log('Added document with ID: ', currid);
+//         console.log("new cust");
 
-    }
+       
+        
+//         result.status = 'success';
+//         result.message = `No customer found, new customer added`;
+//         res.send(result);
 
-    snapshot.forEach(doc => {
-        console.log(doc.id, '=>', doc.data());
-        currid = doc.id;
-        console.log('Added document with ID: ', currid);
-        console.log("old cust");
-    })
+//         return;
+//     }
+
+//     snapshot.forEach(doc => {
+//         console.log(doc.id, '=>', doc.data());
+//         currid = doc.id;
+//         console.log('Added document with ID: ', currid);
+//         console.log("old cust");
+//     })
 
 
-    // const newcustorder = await db.collection('custorders').add({
-    //     id_customer: currid,
-    //     date_time: date_time
-    // });
+//     // const newcustorder = await db.collection('custorders').add({
+//     //     id_customer: currid,
+//     //     date_time: date_time
+//     // });
 
-    result.status = 'success';
-    result.message = `Successful update customer into database`;
-    res.send(result);
-});
+//     result.status = 'success';
+//     result.message = `Successful update customer into database`;
+//     res.send(result);
+// });
 //End Post Customer
 
 app.delete('/mbos/customer/delete/:id', function(req, res) {
@@ -445,57 +452,40 @@ app.post('/mbos/custorder/create', async function(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
 
     var custId, custorderId;
+    var cust = JSON.parse(req.body.custinfo);
     var date = new Date();
     var datetime = dateFormat(date, "yyyy-mm-dd h:MM:ss");
-    const snapshot = await db.collection('customers').where('name', '==', req.body.name.toString()).get();
+    const snapshot = await db.collection('customers').where('name', '==', cust.name.toString()).get();
     var result = { 'status': null, 'message': null };
 
-    // db.collection('customers').where('name', '==', req.body.name.toString()).get().then( function (docs) {
-    //     if (docs.empty) {
-    //         result.status = 'fail';
-    //         result.message = `Error in completing task!`;
-    //         res.send(result);
 
-    //     } else {
-    //         snapshot.forEach(docs => {
-    //             custId = docs.id;
-    //         });
-
-    //         var new_custorder = { 'id_customer': custId, 'date_time': date_time };
-
-    //        db.collection('custorders').doc().set(new_custorder).then(function (doc) {
-    //             result.status = 'success';
-    //             result.message = `Successful save new custorder into database`;
-
-    //             res.send(result);
-
-    //             custorderId = doc.id;
-    //         });
-
-    //         const neworder= await db.collection('custorders').add(new_custorder);
-    //         custorderId = neworder.id;
-
-    //     }
-    // });
-
-    if (snapshot.empty) {
-        result.status = 'fail';
-        result.message = `Error in completing task!`;
-        res.send(result);
-    } else {
+    if (!snapshot.empty) {
         snapshot.forEach(docs => {
             custId = docs.id;
         });
 
-        const newcustorder = await db.collection('custorders').add({
-            id_customer: custId,
-            date_time: datetime
-        })
-
-
-        custorderId = newcustorder.id;
+        
+        console.log("old cust");
     }
+    else
+    {
+        const newcust = await db.collection('customers').add({
+            name: cust.name,
+            address: cust.address,
+            area: cust.area
+        });
+        custId = newcust.id;
+       
+        console.log("new cust");      
+    }
+    
+    console.log('Added document with ID: ', custId);
+    const newcustorder = await db.collection('custorders').add({
+        id_customer: custId,
+        date_time: datetime
+    })
 
+    custorderId = newcustorder.id;   
     var ordrlist = JSON.parse(req.body.orderlist);
     console.log(ordrlist.length);
     for (let i = 0; i < ordrlist.length; i++) {

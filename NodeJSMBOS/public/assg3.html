@@ -1,330 +1,385 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>MBOS - New Order</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="Free Website Template" name="keywords">
+        <meta content="Free Website Template" name="description">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="./font-awesome-4.7.0/css/font-awesome.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 
-<head>
-    <title>MBOS - New Order</title>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="./font-awesome-4.7.0/css/font-awesome.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-    <style>
-        table {
-            width: 100%;
-            border: 2px solid black;
-        }
+        <!-- Favicon -->
+        <link href="https://www.xwhos.com/photo/whois_marrybrown_2019-09-11_0.webp" rel="icon">
+
+        <!-- Google Font -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Nunito:600,700" rel="stylesheet"> 
         
-        .order {
-            margin: 10px;
-        }
+        <!-- CSS Libraries -->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+        <link href="lib/animate/animate.min.css" rel="stylesheet">
+        <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+        <link href="lib/flaticon/font/flaticon.css" rel="stylesheet">
+        <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+        <!-- Template Stylesheet -->
+        <link href="css/style.css" rel="stylesheet">
+
         
-        th {
-            background-color: #309edf;
-            color: white;
-        }
+    </head>
+
+    <body ng-app="custOdr" ng-controller="custOdrCtrl">
+        <!-- Nav Bar Start -->
+        <div class="navbar navbar-expand-lg bg-light navbar-light">
+            <div class="container-fluid">
+                <a href="index.html" class="navbar-brand"> <img src="https://www.mpt.com.mm/wp-content/uploads/2018/07/LOGO-3-SMALL-1024x248.png" alt=""></a>
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                    <div class="navbar-nav ml-auto">
+                        <a href="assg3.html" class="nav-item nav-link active">New Order</a>
+                        <a href="order-list.html" class="nav-item nav-link">Order List</a>
+                        <a href="menus.html" class="nav-item nav-link">Menus</a>
+                        <a href="customers.html" class="nav-item nav-link">Customers</a>
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Nav Bar End -->
         
-        .header {
-            background-color: rgb(255, 37, 37);
-        }
-    </style>
-</head>
+        
+        <!-- Page Header Start -->
+        <div class="page-header mb-0">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h2>Create an Order</h2>
+                    </div>
+                    <div class="col-12">
+                        <a href="">Home</a>
+                        <a href="">Order</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Page Header End -->
+        
 
-<body ng-app="custOdr" ng-controller="custOdrCtrl">
-    <i class="fa fa-circle-o-notch fa-spin fa-4x fa-fw " style="color: lightsteelblue; position: absolute;top: 50%; left: 50%;"></i>
+        <!-- Booking Start -->
 
-    <div class="w3-bar w3-sand">
-        <a class="w3-bar-item w3-button w3-black" href="assg3.html">New Order</a>
-        <a class="w3-bar-item w3-button" href="order-list.html">Order List</a>
-        <a class="w3-bar-item w3-button" href="menus.html">Menus</a>
-        <a class="w3-bar-item w3-button" href="customers.html">Customers</a>
-    </div>
+        <!-- Booking End -->
+        
+        
+        <!-- Menu Start -->
+        <div class="menu">
+            <div class="container-fluid">
 
-    <div style="float:left;">
-        <img src="menu.gif" width="500" height="487" alt="Planets" usemap="#menumap"></td>
-    </div>
+                <div class="menu-tab">
 
-    <div style="float:left;" id="odrForm" class="order">
-        <table border="1" class="w3-table">
-            <tr>
-                <th colspan="4" class="header">Order Form</th>
-            </tr>
-            <tr>
-                <th>Item</th>
-                <th>Price</th>
-                <th>Qty</th>
-                <th>Qty * Price</th>
-            </tr>
+                    <div class="tab-content">
+                        <div id="burgers" class="container tab-pane active">
+                            <div class="row">
+                                
+                                <div style="float:left;">
+                                    <img src="menu.gif" width="500" height="487" alt="Planets" usemap="#menumap"></td>
+                                </div>
+                                <div style="float:left; padding-left: 50px;" id="odrForm" class="order ">
+                                    <table class="w3-table w3-striped w3-border" >
+                                        <tr>
+                                            <th colspan="4" class="header"><h4 style=" color: white;">Order Form</h4></th>
+                                        </tr>
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Price</th>
+                                            <th>Qty</th>
+                                            <th>Qty * Price</th>
+                                        </tr>
+                            
+                                        <tr ng-repeat="odr in odrList">
+                                            <td>{{ odr.item }} - <button class="btn custom-btn" ng-click="doDelete(odr.item)">Delete</button></td>
+                                            <td style="text-align:center;">{{ odr.price }}</td>
+                                            <td style="text-align:center;">{{ odr.qty }}</td>
+                                            <td style="text-align:right;">{{ odr.qty * odr.price | number:2}}</td>
+                                        </tr>
+                            
+                                        <tr>
+                                            <th style="text-align:right;" colspan="3">TOTAL (RM)</th>
+                                            <th style="text-align:right;">{{ totalPrice | number:2 }}</th>
+                                        </tr>
+                            
+                                        <tr>
+                                            <td>{{ menu.item }}</td>
+                                            <td>{{ menu.price }}</td>
+                                            <td>
+                                                <input type="text" class="form-control" ng-model="menu.qty" size="3" class="w3-text-center">
+                                            </td>
+                                            <td>
+                                                <button class="btn custom-btn" ng-click="doAddUpdate()">Add/Update</button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                            
+                                    <br>
+                            
+                                    <table  class="w3-table w3-striped w3-border">
+                                        <tr>
+                                            <th colspan="2" class="header"><h4 style=" color: white;">Customer Form</h4></th>
+                                        </tr>
+                                        <tr>
+                                            <th align="right">Name:</th>
+                                            <td><input type="text" class="form-control" ng-model="cust.name" size="30"></td>
+                                        </tr>
+                                        <tr>
+                                            <th align="right" valign="top">Address:</th>
+                                            <td>
+                                                <input type="text" class="form-control" ng-model="cust.address" size="50">
+                                                <br>
+                                                <span style="font-size: 10pt;">(Apartment/building/unit no., street address)</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th align="right">Area:</th>
+                                            <td>
+                                                <select class="form-control" ng-model="cust.area" ng-options="x for x in areas">
+                                      </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="w3-center">
+                                                <button class="btn custom-btn" ng-click="confirmOrder()">Save Order</button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div style="float:left; padding-left: 50px;" id="odrConfirm">
+                                    <h2>Save Customer Order</h2>
+                                    <table border="1" class="w3-table">
+                                        <tr>
+                                            <th colspan="4" class="header">CUSTOMER INFO</th>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">
+                                                <b>{{ cust.name }}</b><br> {{ cust.address }}<br> {{ cust.area }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="4" class="header">ORDER ITEM</th>
+                                        </tr>
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Price</th>
+                                            <th>Qty</th>
+                                            <th>Qty * Price</th>
+                                        </tr>
+                                        <tr ng-repeat="odr in odrList">
+                                            <td>{{ odr.item }}</td>
+                                            <td style="text-align:center;">{{ odr.price }}</td>
+                                            <td style="text-align:center;">{{ odr.qty }}</td>
+                                            <td style="text-align:right;">{{ odr.qty * odr.price | number:2}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4" class="w3-center">
+                                                <button ng-click="continueOrder()">Continue</button>
+                                                <button ng-click="cancelOrder()">Cancel</button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <map name="menumap">
+                            <area shape="rect" coords="0,138,23,154" alt="Chicken Burger" ng-click="chooseItem('Chicken Burger', 8.8);">
+                            <area shape="rect" coords="128,138,147,154" alt="Hotouch Burger" ng-click="chooseItem('Hotouch Burger', 11.1);">
+                            <area shape="rect" coords="252,138,272,154" alt="Tower Burger" ng-click="chooseItem('Tower Burger', 13.8);">
+                            <area shape="rect" coords="378,138,395,154" alt="Fish Fillet Burger"
+                              ng-click="chooseItem('Fish Fillet Burger', 11.25);">
+                        
+                            <area shape="rect" coords="0,282,23,298" alt="Lucky Plate" ng-click="chooseItem('Lucky Plate', 11.90);">
+                            <area shape="rect" coords="128,282,147,298" alt="Chick-A-Licious" ng-click="chooseItem('Chick-A-Licious', 13.30);">
+                            <area shape="rect" coords="252,282,272,298" alt="Chick-A-Mix" ng-click="chooseItem('Chick-A-Mix', 11.90);">
+                            <area shape="rect" coords="377,282,395,298" alt="Fish 'n' Chips" ng-click="chooseItem('Fish \'n\' Chips', 13.90);">
+                        
+                            <area shape="rect" coords="0,430,23,446" alt="Nasi Marrybrown" ng-click="chooseItem('Nasi Marrybrown', 9.90);">
+                            <area shape="rect" coords="128,430,147,446" alt="Nasi Ayam MB" ng-click="chooseItem('Nasi Ayam MB', 10.30);">
+                            <area shape="rect" coords="252,430,272,446" alt="Mi Kari MB" ng-click="chooseItem('Mi Kari MB', 9.50);">
+                            <area shape="rect" coords="335,430,354,446" alt="Chicken Porridge" ng-click="chooseItem('Chicken Porridge', 6.50);">
+                            <area shape="rect" coords="418,430,436,446" alt="Seafood Porridge" ng-click="chooseItem('Seafood Porridge', 7.50);">
+                        
+                        
+                          </map>
+ 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Menu End -->
+        <div class="col-lg-7 col-md-12">
+            <pre>
+              Group Members:
+              1. Mirhanieza Binti Matharuzaman (A18CS0106)
+              2. Nur Irdina Binti Ahmad Rifdi (A18CS0195)
+              3. Nurul Aqilah Binti Fadzil (A18CS0216)
+        </pre>
+        </div>
 
-            <tr ng-repeat="odr in odrList">
-                <td>{{ odr.item }} - <button ng-click="doDelete(odr.item)">Delete</button></td>
-                <td style="text-align:center;">{{ odr.price }}</td>
-                <td style="text-align:center;">{{ odr.qty }}</td>
-                <td style="text-align:right;">{{ odr.qty * odr.price | number:2}}</td>
-            </tr>
+        <!-- Footer Start -->
+        <div class="footer">
+            <div class="copyright">
+                <div class="container">
+                    <p>Designed By <a href="https://htmlcodex.com">HTML Codex</a></p>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
 
-            <tr>
-                <th style="text-align:right;" colspan="3">TOTAL (RM)</th>
-                <th style="text-align:right;">{{ totalPrice | number:2 }}</th>
-            </tr>
+        <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 
-            <tr>
-                <td>{{ menu.item }}</td>
-                <td>{{ menu.price }}</td>
-                <td>
-                    <input type="text" ng-model="menu.qty" size="3" class="w3-text-center">
-                </td>
-                <td>
-                    <button ng-click="doAddUpdate()">Add/Update</button>
-                </td>
-            </tr>
-        </table>
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <script src="lib/easing/easing.min.js"></script>
+        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+        <script src="lib/tempusdominus/js/moment.min.js"></script>
+        <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+        <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+        
+        <!-- Contact Javascript File -->
+        <script src="mail/jqBootstrapValidation.min.js"></script>
+        <script src="mail/contact.js"></script>
 
-        <br>
-
-        <table border="1" class="w3-table">
-            <tr>
-                <th colspan="2" class="header">Customer Form</th>
-            </tr>
-            <tr>
-                <th align="right">Name:</th>
-                <td><input type="text" ng-model="cust.name" size="30"></td>
-            </tr>
-            <tr>
-                <th align="right" valign="top">Address:</th>
-                <td>
-                    <input type="text" ng-model="cust.address" size="50">
-                    <br>
-                    <span style="font-size: 10pt;">(Apartment/building/unit no., street address)</span>
-                </td>
-            </tr>
-            <tr>
-                <th align="right">Area:</th>
-                <td>
-                    <select ng-model="cust.area" ng-options="x for x in areas">
-          </select>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" class="w3-center">
-                    <button ng-click="confirmOrder()">Save Order</button>
-                </td>
-            </tr>
-        </table>
-    </div>
-
-    <div style="float:left;" id="odrConfirm">
-        <h2>Save Customer Order</h2>
-        <table border="1" class="w3-table">
-            <tr>
-                <th colspan="4" class="header">CUSTOMER INFO</th>
-            </tr>
-            <tr>
-                <td colspan="4">
-                    <b>{{ cust.name }}</b><br> {{ cust.address }}<br> {{ cust.area }}
-                </td>
-            </tr>
-            <tr>
-                <th colspan="4" class="header">ORDER ITEM</th>
-            </tr>
-            <tr>
-                <th>Item</th>
-                <th>Price</th>
-                <th>Qty</th>
-                <th>Qty * Price</th>
-            </tr>
-            <tr ng-repeat="odr in odrList">
-                <td>{{ odr.item }}</td>
-                <td style="text-align:center;">{{ odr.price }}</td>
-                <td style="text-align:center;">{{ odr.qty }}</td>
-                <td style="text-align:right;">{{ odr.qty * odr.price | number:2}}</td>
-            </tr>
-            <tr>
-                <td colspan="4" class="w3-center">
-                    <button ng-click="continueOrder()">Continue</button>
-                    <button ng-click="cancelOrder()">Cancel</button>
-                </td>
-            </tr>
-        </table>
-    </div>
-
-    <div style="float:left;">
-        <pre>
-          Group Members:
-          1. Mirhanieza Binti Matharuzaman (A18CS0106)
-          2. Nur Irdina Binti Ahmad Rifdi (A18CS0195)
-          3. Nurul Aqilah Binti Fadzil (A18CS0216)
-    </pre>
-    </div>
-
-    <map name="menumap">
-    <area shape="rect" coords="0,138,23,154" alt="Chicken Burger" ng-click="chooseItem('Chicken Burger', 8.8);">
-    <area shape="rect" coords="128,138,147,154" alt="Hotouch Burger" ng-click="chooseItem('Hotouch Burger', 11.1);">
-    <area shape="rect" coords="252,138,272,154" alt="Tower Burger" ng-click="chooseItem('Tower Burger', 13.8);">
-    <area shape="rect" coords="378,138,395,154" alt="Fish Fillet Burger"
-      ng-click="chooseItem('Fish Fillet Burger', 11.25);">
-
-    <area shape="rect" coords="0,282,23,298" alt="Lucky Plate" ng-click="chooseItem('Lucky Plate', 11.90);">
-    <area shape="rect" coords="128,282,147,298" alt="Chick-A-Licious" ng-click="chooseItem('Chick-A-Licious', 13.30);">
-    <area shape="rect" coords="252,282,272,298" alt="Chick-A-Mix" ng-click="chooseItem('Chick-A-Mix', 11.90);">
-    <area shape="rect" coords="377,282,395,298" alt="Fish 'n' Chips" ng-click="chooseItem('Fish \'n\' Chips', 13.90);">
-
-    <area shape="rect" coords="0,430,23,446" alt="Nasi Marrybrown" ng-click="chooseItem('Nasi Marrybrown', 9.90);">
-    <area shape="rect" coords="128,430,147,446" alt="Nasi Ayam MB" ng-click="chooseItem('Nasi Ayam MB', 10.30);">
-    <area shape="rect" coords="252,430,272,446" alt="Mi Kari MB" ng-click="chooseItem('Mi Kari MB', 9.50);">
-    <area shape="rect" coords="335,430,354,446" alt="Chicken Porridge" ng-click="chooseItem('Chicken Porridge', 6.50);">
-    <area shape="rect" coords="418,430,436,446" alt="Seafood Porridge" ng-click="chooseItem('Seafood Porridge', 7.50);">
-
-
-  </map>
-</body>
-<script>
-    $('.fa').hide(); // hide spin icon
-    $("#odrConfirm").hide();
-
-    var app = angular.module('custOdr', []);
-
-    app.controller('custOdrCtrl', function($scope) {
-        $scope.menu = {};
-        $scope.odrList = [];
-        $scope.odrKeys = [];
-        $scope.totalPrice = 0;
-
-        $scope.cust = {
-            "name": "Lionel Messi",
-            "address": "Block L07, Jalan Merbau, KTHO",
-            "area": "UTM"
-        };
-
-        $scope.areas = ["", "Bandar Baru Kangkar Pulai", "Kangkar Pulai", "Pulai Emas", "Pulai Flora",
-            "Pulai Indah", "Sri Pulai", "Sri Pulai Perdana", "Sri Pulai Perdana 2", "UTM"
-        ];
-
-        $scope.chooseItem = function(item, price) {
-            //alert("Choose " + item + " - " + price);
-            $scope.menu.item = item;
-            $scope.menu.price = price;
-            $scope.menu.qty = 1;
-        };
-
-        $scope.doAddUpdate = function() {
-            var idx = $scope.odrKeys.indexOf($scope.menu.item);
-
-            if (idx < 0) {
-                // Add order item
-                $scope.odrList.push({
-                    "item": $scope.menu.item,
-                    "price": $scope.menu.price,
-                    "qty": $scope.menu.qty
-                });
-                $scope.odrKeys.push($scope.menu.item);
-                $scope.totalPrice = $scope.totalPrice + ($scope.menu.price * $scope.menu.qty);
-
-            } else {
-                // Update order item
-                //alert("Update order item at index " + idx);
-                $scope.totalPrice = $scope.totalPrice - ($scope.menu.price * $scope.odrList[idx].qty);
-                $scope.odrList[idx].qty = $scope.menu.qty;
-                $scope.totalPrice = $scope.totalPrice + ($scope.menu.price * $scope.menu.qty);
-            }
-        };
-
-        $scope.doDelete = function(item) {
-            var idx = $scope.odrKeys.indexOf(item);
-
-            //alert("Delete " + item + " at index " + idx);
-
-            if (idx > -1) {
-                $scope.totalPrice = $scope.totalPrice - ($scope.odrList[idx].price * $scope.odrList[idx].qty);
-                $scope.odrList.splice(idx, 1);
-                $scope.odrKeys.splice(idx, 1);
-            }
-        };
-
-        $scope.confirmOrder = function() {
-            $("#odrForm").hide();
-            $("#odrConfirm").show();
-        };
-
-        $scope.continueOrder = function() {
-            var custJStr = JSON.stringify($scope.cust, null, "  ");
-            var odrListJStr = JSON.stringify($scope.odrList, null, "  ");
-
-            alert("Save the following JSON structure into database:\n" + custJStr + "\n" + odrListJStr);
-
-            //Add Customer------------------------------------------------------------------------------------
-            // switch to jQuery solution ;-)
-            $.ajax({
-                type: "POST",
-                url: "http://127.0.0.1:8080/mbos/customer/create",
-                data: $scope.cust,
-
-                success: function(res, status, xhr) {
-                    console.log(res);
-                    res = JSON.parse(res);
-                    console.log(res.status);
-
-                    if (res.status == 'success') {
-                        $('.fa').hide(); // hide spin icon
-                    } else {
-                        alert(res.message);
-                    }
-                },
-
-                error: function(xhr, status, error) {
-                    alert("AJAX error: " + error);
-                },
-            }).then(function() {
-                $('.fa').hide(); // hide spin icon
-            });
-            //End Add Customer-------------------------------------------------------------------------
-
-            //Add custorder----------------------------------------------------------------------------
-
-            $scope.new_custorder = {
-                'name': $scope.cust.name,
-                'orderlist': odrListJStr
-            };
-            $.ajax({
-                type: "POST",
-                url: "http://127.0.0.1:8080/mbos/custorder/create",
-                data: $scope.new_custorder,
-
-                success: function(res, status, xhr) {
-                    console.log(res);
-                    res = JSON.parse(res);
-                    console.log(res.status);
-
-                    if (res.status == 'success') {
-                        $('.fa').hide(); // hide spin icon
-                    } else {
-                        alert(res.message);
-                    }
-                },
-
-                error: function(xhr, status, error) {
-                    alert("AJAX error: " + error);
-                },
-            }).then(function() {
-                $('.fa').hide(); // hide spin icon
-            });
-            //End Add custorder------------------------------------------------------------------------
-
-
+        <!-- Template Javascript -->
+        <script src="js/main.js"></script>
+    </body>
+    <script>
+        $('.fa').hide(); // hide spin icon
+        $("#odrConfirm").hide();
+    
+        var app = angular.module('custOdr', []);
+    
+        app.controller('custOdrCtrl', function($scope) {
             $scope.menu = {};
             $scope.odrList = [];
             $scope.odrKeys = [];
-
-            $scope.cust = {};
-
             $scope.totalPrice = 0;
-
-            $("#odrConfirm").hide();
-            $("#odrForm").show();
-        };
-
-        $scope.cancelOrder = function() {
-            $("#odrConfirm").hide();
-            $("#odrForm").show();
-        };
-    });
-</script>
-
+    
+            $scope.cust = {
+                "name": "Lionel Messi",
+                "address": "Block L07, Jalan Merbau, KTHO",
+                "area": "UTM"
+            };
+    
+            $scope.areas = ["", "Bandar Baru Kangkar Pulai", "Kangkar Pulai", "Pulai Emas", "Pulai Flora",
+                "Pulai Indah", "Sri Pulai", "Sri Pulai Perdana", "Sri Pulai Perdana 2", "UTM"
+            ];
+    
+            $scope.chooseItem = function(item, price) {
+                //alert("Choose " + item + " - " + price);
+                $scope.menu.item = item;
+                $scope.menu.price = price;
+                $scope.menu.qty = 1;
+            };
+    
+            $scope.doAddUpdate = function() {
+                var idx = $scope.odrKeys.indexOf($scope.menu.item);
+    
+                if (idx < 0) {
+                    // Add order item
+                    $scope.odrList.push({
+                        "item": $scope.menu.item,
+                        "price": $scope.menu.price,
+                        "qty": $scope.menu.qty
+                    });
+                    $scope.odrKeys.push($scope.menu.item);
+                    $scope.totalPrice = $scope.totalPrice + ($scope.menu.price * $scope.menu.qty);
+    
+                } else {
+                    // Update order item
+                    //alert("Update order item at index " + idx);
+                    $scope.totalPrice = $scope.totalPrice - ($scope.menu.price * $scope.odrList[idx].qty);
+                    $scope.odrList[idx].qty = $scope.menu.qty;
+                    $scope.totalPrice = $scope.totalPrice + ($scope.menu.price * $scope.menu.qty);
+                }
+            };
+    
+            $scope.doDelete = function(item) {
+                var idx = $scope.odrKeys.indexOf(item);
+    
+                //alert("Delete " + item + " at index " + idx);
+    
+                if (idx > -1) {
+                    $scope.totalPrice = $scope.totalPrice - ($scope.odrList[idx].price * $scope.odrList[idx].qty);
+                    $scope.odrList.splice(idx, 1);
+                    $scope.odrKeys.splice(idx, 1);
+                }
+            };
+    
+            $scope.confirmOrder = function() {
+                $("#odrForm").hide();
+                $("#odrConfirm").show();
+            };
+    
+            $scope.continueOrder = function() {
+                var custJStr = JSON.stringify($scope.cust, null, "  ");
+                var odrListJStr = JSON.stringify($scope.odrList, null, "  ");
+    
+                alert("Save the following JSON structure into database:\n" + custJStr + "\n" + odrListJStr);
+ 
+    
+                //Add custorder----------------------------------------------------------------------------
+    
+                $scope.new_custorder = {
+                    'custinfo': custJStr,
+                    'orderlist': odrListJStr
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "http://127.0.0.1:8080/mbos/custorder/create",
+                    data: $scope.new_custorder,
+    
+                    success: function(res, status, xhr) {
+                        console.log(res);
+                        res = JSON.parse(res);
+                        console.log(res.status);
+    
+                        if (res.status == 'success') {
+                            $('.fa').hide(); // hide spin icon
+                        } else {
+                            alert(res.message);
+                        }
+                    },
+    
+                    error: function(xhr, status, error) {
+                        alert("AJAX error: " + error);
+                    },
+                }).then(function() {
+                    $('.fa').hide(); // hide spin icon
+                });
+                //End Add custorder------------------------------------------------------------------------
+    
+    
+                $scope.menu = {};
+                $scope.odrList = [];
+                $scope.odrKeys = [];
+    
+                $scope.cust = {};
+    
+                $scope.totalPrice = 0;
+    
+                $("#odrConfirm").hide();
+                $("#odrForm").show();
+            };
+    
+            $scope.cancelOrder = function() {
+                $("#odrConfirm").hide();
+                $("#odrForm").show();
+            };
+        });
+    </script>
 </html>
